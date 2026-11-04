@@ -144,9 +144,27 @@ also available on the menu list, including for expired menus.
 5. Set Supabase's **Authentication → URL Configuration → Site URL** to the final
    website URL. If using a custom domain, use that URL.
 
-The Vite build uses relative asset URLs, so repository Pages subpaths work without
-rewrites. There is no client-side routing requiring a server. Fonts are bundled
-locally with system/Georgia fallbacks; all food illustrations are local SVGs.
+   ## Deploy to Render
+
+   Create or update a **Static Site** connected to this repository:
+
+   - Branch: `main`
+   - Root Directory: leave blank
+   - Build Command: `npm ci && npm run build`
+   - Publish Directory: `dist`
+   - Node.js: **22.13.0 or newer** (also declared in `package.json`)
+
+   The site must be built with a supported Node version because the PDF menu importer
+   uses PDF.js. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as Render
+   environment variables before building if you want shared menus and real orders;
+   leave both unset for the browser-only demo. After changing environment variables,
+   trigger a new deploy. For a blank page after these settings, check the latest
+   Render deploy log and browser developer console for the failed build or asset
+   request.
+
+   The Vite build uses relative asset URLs, so repository Pages subpaths work without
+   rewrites. There is no client-side routing requiring a server. Fonts are bundled
+   locally with system/Georgia fallbacks; all food illustrations are local SVGs.
 The default branding is "The Cove", currency is USD and dates use US formatting.
 Staff-entered deadline inputs use the staff device's local timezone and are stored
 as absolute timestamps; use a device set to the school's timezone. Service dates
