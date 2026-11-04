@@ -154,7 +154,7 @@ export function ordersCsv(orders: Order[]) {
       "Items",
       "Total (USD)",
       "Status",
-      "Notes",
+      "Meal requests",
       "Placed",
     ],
     ...orders.map((order) => [

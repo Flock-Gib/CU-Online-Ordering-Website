@@ -43,10 +43,11 @@ end $$;
 do $$
 declare receipt jsonb; retry jsonb;
 begin
-  receipt := public.place_order('33333333-3333-4333-8333-333333333333', 'Test Teacher', 'teacher@example.test', 'B12', '',
+  receipt := public.place_order('33333333-3333-4333-8333-333333333333', 'Test Teacher', 'teacher@example.test', 'B12', 'No bacon, please.',
     '[{"itemId":"44444444-4444-4444-8444-444444444444","quantity":2,"unitPrice":450}]', '77777777-7777-4777-8777-777777777777');
-  if (receipt->>'total')::integer <> 900 or receipt->>'teacherName' <> 'Test Teacher' then raise exception 'Wrong receipt'; end if;
-  retry := public.place_order('33333333-3333-4333-8333-333333333333', 'Test Teacher', 'teacher@example.test', 'B12', '',
+  if (receipt->>'total')::integer <> 900 or receipt->>'teacherName' <> 'Test Teacher'
+    or receipt->>'note' <> 'No bacon, please.' then raise exception 'Wrong receipt or lost meal request'; end if;
+  retry := public.place_order('33333333-3333-4333-8333-333333333333', 'Test Teacher', 'teacher@example.test', 'B12', 'No bacon, please.',
     '[{"itemId":"44444444-4444-4444-8444-444444444444","quantity":2,"unitPrice":450}]', '77777777-7777-4777-8777-777777777777');
   if receipt <> retry then raise exception 'Idempotency failed'; end if;
 end $$;

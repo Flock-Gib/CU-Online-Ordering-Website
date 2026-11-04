@@ -9,22 +9,10 @@ import {
 } from "lucide-react";
 import Admin from "./Admin";
 import Storefront from "./Storefront";
-import {
-  configError,
-  demoMode,
-  listMenus,
-  resetDemo,
-  supabase,
-} from "./repository";
+import { configError, listMenus, supabase } from "./repository";
 import type { Menu } from "./model";
 
-function Login({
-  signedIn,
-  onDemo,
-}: {
-  signedIn: boolean;
-  onDemo: () => void;
-}) {
+function Login({ signedIn }: { signedIn: boolean }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -51,24 +39,14 @@ function Login({
       <div className="login-icon">
         <ChefHat size={35} />
       </div>
-      <div className="eyebrow">BEHIND THE COUNTER</div>
-      <h1>The kitchen starts here.</h1>
+      <div className="eyebrow">CAPE COD TECH · CULINARY TEAM</div>
+      <h1>Culinary team sign in.</h1>
       <p>
         Manage your menus, keep an eye on orders,
         <br />
         and make lunch happen.
       </p>
-      {demoMode ? (
-        <>
-          <div className="alert">
-            You’re in the local demo. Explore the admin tools without signing
-            in. Changes and practice orders stay in this browser only.
-          </div>
-          <button className="button primary full" onClick={onDemo}>
-            Explore demo admin <ArrowRight size={17} />
-          </button>
-        </>
-      ) : signedIn ? (
+      {signedIn ? (
         <div className="alert error" role="alert">
           This account is not authorized as culinary staff. Ask your site
           administrator to add you to the staff list.
@@ -119,10 +97,14 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [staffName, setStaffName] = useState("Culinary team");
   const [staff, setStaff] = useState(false);
   const [checkingStaff, setCheckingStaff] = useState(false);
-  const [demoStaff, setDemoStaff] = useState(false);
   const refresh = useCallback(async () => {
+    if (configError) {
+      setLoading(false);
+      return;
+    }
     setError("");
     try {
       setMenus(await listMenus());
@@ -142,10 +124,25 @@ export default function App() {
     void supabase.auth.getSession().then(({ data, error }) => {
       if (!active) return;
       if (error) setError(error.message);
-      else setUserId(data.session?.user.id || null);
+      else {
+        const user = data.session?.user;
+        setUserId(user?.id || null);
+        const fullName = user?.user_metadata.full_name;
+        setStaffName(
+          typeof fullName === "string" && fullName.trim()
+            ? fullName.trim()
+            : "Culinary team",
+        );
+      }
     });
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setUserId(session?.user.id || null);
+      const fullName = session?.user.user_metadata.full_name;
+      setStaffName(
+        typeof fullName === "string" && fullName.trim()
+          ? fullName.trim()
+          : "Culinary team",
+      );
     });
     return () => {
       active = false;
@@ -176,6 +173,10 @@ export default function App() {
     };
   }, [userId]);
   useEffect(() => {
+    if (configError) {
+      setLoading(false);
+      return;
+    }
     void refresh();
   }, [refresh, staff]);
 
@@ -187,9 +188,9 @@ export default function App() {
         return;
       }
     }
-    setDemoStaff(false);
     setStaff(false);
     setUserId(null);
+    setStaffName("Culinary team");
     setView("store");
     await refresh();
   }
@@ -208,14 +209,14 @@ export default function App() {
       <header className="site-header">
         <button
           className="brand"
-          aria-label="The Cove home"
+          aria-label="Cape Cod Tech culinary home"
           onClick={() => setView("store")}
         >
-          <span className="brand-mark">
-            <UtensilsCrossed size={26} strokeWidth={1.5} />
+          <span className="brand-mark" aria-hidden="true">
+            CCT
           </span>
           <span className="brand-name">
-            the cove<span>CULINARY STUDENT KITCHEN</span>
+            Cape Cod Tech<span>CULINARY DEPARTMENT</span>
           </span>
         </button>
         <nav aria-label="Main navigation">
@@ -229,9 +230,9 @@ export default function App() {
             className={`staff-link ${view === "admin" ? "nav-active" : ""}`}
             onClick={() => setView("admin")}
           >
-            <ChefHat size={16} /> Culinary staff
+            <ChefHat size={16} /> Culinary team
           </button>
-          {(userId || demoStaff) && (
+          {userId && (
             <button
               className="icon-button"
               aria-label="Sign out"
@@ -250,29 +251,34 @@ export default function App() {
           </a>
         </nav>
       </header>
-      {demoMode && (
-        <div className="demo-banner">
-          <span>
-            <strong>Demo kitchen</strong> · Try the menus and ordering. Nothing
-            is sent to the school.
-          </span>
-          <button
-            onClick={() => {
-              if (window.confirm("Reset all local demo menus and orders?")) {
-                resetDemo();
-                window.location.reload();
-              }
-            }}
-          >
-            Reset demo
-          </button>
-        </div>
-      )}
       <main id="main">
         {configError ? (
-          <div className="alert error" role="alert">
-            {configError}
-          </div>
+          <section className="setup-panel" role="status">
+            <div className="login-icon">
+              <ChefHat size={35} />
+            </div>
+            <div className="eyebrow">CAPE COD TECH · CULINARY DEPARTMENT</div>
+            <h1>Online ordering is being set up.</h1>
+            <p>{configError}</p>
+            <div className="setup-steps">
+              <strong>Before opening the ordering site</strong>
+              <span>
+                Connect the school’s Supabase project and run the database
+                setup.
+              </span>
+              <span>
+                Create named culinary staff accounts and grant each account
+                staff access.
+              </span>
+              <span>
+                Add the public Supabase URL and anon key to the hosting
+                provider, then redeploy.
+              </span>
+            </div>
+            <p className="fine-print">
+              No practice orders or menu data are stored on this site.
+            </p>
+          </section>
         ) : (
           <>
             {error && (
@@ -301,13 +307,14 @@ export default function App() {
                   <div className="loading" role="status">
                     Checking staff access…
                   </div>
-                ) : staff || demoStaff ? (
-                  <Admin menus={menus} refresh={refresh} />
-                ) : (
-                  <Login
-                    signedIn={!!userId}
-                    onDemo={() => setDemoStaff(true)}
+                ) : staff ? (
+                  <Admin
+                    menus={menus}
+                    refresh={refresh}
+                    staffName={staffName}
                   />
+                ) : (
+                  <Login signedIn={!!userId} />
                 )}
               </>
             )}
@@ -317,10 +324,10 @@ export default function App() {
       <footer>
         <div className="footer-brand">
           <UtensilsCrossed size={19} />
-          <strong>the cove</strong>
-          <span>Good food. Great potential.</span>
+          <strong>Cape Cod Tech</strong>
+          <span>Culinary Department</span>
         </div>
-        <span>Crafted with care by our culinary department.</span>
+        <span>Cape Cod Regional Technical High School</span>
       </footer>
     </>
   );

@@ -134,6 +134,7 @@ describe("orders", () => {
       createdAt: new Date().toISOString(),
     };
     const csv = ordersCsv([order]);
+    expect(csv).toContain('"Meal requests"');
     expect(csv).toContain(`"'  =HYPERLINK(""bad"")"`);
     expect(csv).toContain(`"'+1"`);
     expect(csv).toContain('"9.00"');

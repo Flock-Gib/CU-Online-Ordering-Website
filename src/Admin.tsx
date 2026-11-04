@@ -26,13 +26,7 @@ import {
   ordersCsv,
 } from "./model";
 import type { Menu, MenuItem, Order } from "./model";
-import {
-  demoMode,
-  listOrders,
-  saveMenu,
-  unpublishMenu,
-  updateOrder,
-} from "./repository";
+import { listOrders, saveMenu, unpublishMenu, updateOrder } from "./repository";
 
 const errorMessage = (error: unknown) =>
   error instanceof z.ZodError
@@ -41,7 +35,7 @@ const errorMessage = (error: unknown) =>
       ? error.message
       : "Something went wrong. Please try again.";
 const sample =
-  "# Mains\nRoasted chicken bowl | Rice, seasonal vegetables & lemon dressing | $8.50\nGarden pesto pasta | Basil pesto, tomatoes & parmesan | $7.50\n# Something sweet\nChocolate chip cookie | Fresh from the oven | $2.00";
+  "# Mains\nDish name | Description of the dish | $8.50\nAnother dish | Optional description | $7.50\n# Something sweet\nDessert name | Freshly prepared | $2.00";
 
 function MenuEditor({
   initial,
@@ -534,10 +528,8 @@ function MenuEditor({
           )}
           <div className="editor-save">
             <p>
-              <CheckCircle2 size={17} />{" "}
-              {demoMode
-                ? "Demo changes stay in this browser."
-                : "Published menus are visible to all teachers."}
+              <CheckCircle2 size={17} /> Published menus are visible to all
+              teachers.
             </p>
             <div>
               <button
@@ -567,9 +559,11 @@ function MenuEditor({
 export default function Admin({
   menus,
   refresh,
+  staffName = "Culinary team",
 }: {
   menus: Menu[];
   refresh: () => Promise<void>;
+  staffName?: string;
 }) {
   const [tab, setTab] = useState<"menus" | "orders">("menus");
   const [editing, setEditing] = useState<Menu | null>(null);
@@ -663,7 +657,7 @@ export default function Admin({
       <div className="section-heading admin-heading">
         <div>
           <div className="eyebrow">BEHIND THE COUNTER</div>
-          <h1>Hello, culinary crew.</h1>
+          <h1>Welcome, {staffName}.</h1>
           <p>A good service starts with a little preparation.</p>
         </div>
         <button
@@ -850,9 +844,8 @@ export default function Admin({
               <ClipboardList size={34} />
               <h2>No orders on the board.</h2>
               <p>
-                {demoMode
-                  ? "Place a practice order from the menu to see it here."
-                  : "Orders will appear here as teachers place them. Use Refresh to check for new orders."}
+                Orders will appear here as teachers place them. Use Refresh to
+                check for new orders.
               </p>
             </div>
           ) : (
@@ -904,7 +897,7 @@ export default function Admin({
                   </div>
                   {order.note && (
                     <p className="order-note">
-                      <strong>Note:</strong> {order.note}
+                      <strong>Teacher meal request:</strong> {order.note}
                     </p>
                   )}
                   <div className="order-card-total">

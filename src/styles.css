@@ -9,15 +9,15 @@
 
 :root {
   font-family: "DM Sans", system-ui, sans-serif;
-  color: #283c34;
-  background: #fcfbf7;
+  color: #41474e;
+  background: #f8f8f7;
   font-synthesis: none;
   font-weight: 400;
   line-height: 1.55;
-  --green: #204d3c;
-  --dark: #193e31;
-  --muted: #758078;
-  --line: #e4e6dd;
+  --green: #941114;
+  --dark: #6a1817;
+  --muted: #878a8f;
+  --line: #dfe1df;
   --serif: "DM Serif Display", Georgia, serif;
 }
 * {
@@ -152,25 +152,28 @@ button:hover:not(:disabled) {
 }
 .brand-mark {
   background: var(--dark);
-  border-radius: 50%;
+  border-radius: 5px;
   width: 48px;
   height: 48px;
   display: grid;
   place-items: center;
-  color: #fff4db;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 .brand-name {
   font-family: var(--serif);
-  font-size: 34px;
+  font-size: 27px;
   line-height: 1.1;
-  letter-spacing: -1.3px;
+  letter-spacing: -0.5px;
 }
 .brand-name > span {
   display: block;
   font:
     8px "DM Sans",
     sans-serif;
-  letter-spacing: 1.8px;
+  letter-spacing: 1.35px;
   margin-top: 8px;
 }
 .site-header nav {
@@ -198,23 +201,6 @@ button:hover:not(:disabled) {
 }
 .nav-active {
   font-weight: 650;
-}
-.demo-banner {
-  max-width: 1200px;
-  margin: 12px auto 0;
-  background: #f2ecdc;
-  border: 1px solid #e8dfc7;
-  border-radius: 6px;
-  padding: 8px 13px;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  font-size: 11px;
-  color: #786747;
-}
-.demo-banner button {
-  text-decoration: underline;
-  white-space: nowrap;
 }
 main {
   max-width: 1200px;
@@ -1584,8 +1570,7 @@ footer {
 @media (max-width: 1300px) {
   main,
   .site-header,
-  footer,
-  .demo-banner {
+  footer {
     margin-left: 5%;
     margin-right: 5%;
   }
@@ -1722,9 +1707,6 @@ footer {
     width: 37px;
     height: 37px;
   }
-  .brand-mark svg {
-    width: 22px;
-  }
   .brand-name {
     font-size: 27px;
   }
@@ -1753,14 +1735,6 @@ footer {
   }
   .staff-link svg {
     display: none;
-  }
-  .demo-banner {
-    font-size: 9px;
-    padding: 7px 10px;
-    align-items: center;
-  }
-  .demo-banner button {
-    font-size: 9px;
   }
   .hero {
     padding: 33px 0 25px;
@@ -2148,5 +2122,194 @@ footer {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+.brand-mark,
+.login-icon {
+  box-shadow: 0 0 0 4px #dfe1df;
+}
+.brand-mark {
+  background: #6a1817;
+  border: 1px solid #941114;
+}
+.brand-name {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+  color: #1e1b1c;
+}
+.brand-name > span {
+  font-weight: 550;
+  color: #41474e;
+}
+.eyebrow,
+.site-header nav > button.nav-active,
+.text-button,
+.footer-brand,
+.order-ref {
+  color: #941114;
+}
+.hero h1 em,
+.made-badge,
+.made-badge strong,
+.hero-note svg,
+.how-strip b,
+.how-strip svg,
+.status-dot,
+.food-bottom > strong,
+.add-button,
+.quantity,
+.cart-count,
+.pickup-card,
+.pickup-card strong,
+.student-note,
+.student-note p,
+.tabs button.active,
+.dietary-tags span,
+.success-icon,
+.badge.green,
+.step-number,
+.upload-zone,
+.upload-zone h3,
+.upload-zone .button,
+.order-stats strong,
+.prep-summary > div > span {
+  color: #6a1817;
+}
+.hero-circle,
+.how-strip b,
+.tabs button.active,
+.add-button,
+.quantity,
+.cart-count,
+.bag-circle,
+.pay-note,
+.success-icon,
+.badge.green,
+.step-number,
+.upload-zone,
+.order-stats > div,
+.prep-summary > div > span {
+  background: #dfe1df;
+}
+.primary,
+.skip-link {
+  background: #941114;
+  border-color: #941114;
+}
+.primary:hover:not(:disabled) {
+  background: #6a1817;
+}
+.status-dot {
+  background: #941114;
+}
+.status-dot.closed {
+  background: #878a8f;
+}
+.made-badge {
+  color: #941114;
+}
+.hero-spark,
+.allergy-note,
+.empty-panel,
+.login-icon {
+  color: #878a8f;
+}
+.login-icon {
+  background: #dfe1df;
+}
+.food-card,
+.cart-panel,
+.receipt,
+.admin-card,
+.site-header,
+footer {
+  border-color: #dfe1df;
+}
+.food-card,
+.cart-panel,
+.receipt,
+.admin-card,
+.secondary {
+  background-color: #fff;
+}
+.service-info,
+.menu-summary .badge.green,
+.badge.green,
+.order-stats > div,
+.prep-summary > div > span,
+.setup-panel .setup-steps {
+  background: #f0f0ef;
+  border-color: #dfe1df;
+}
+.tabs button.active {
+  border-color: #c6c8c8;
+}
+.allergy-note strong,
+.footer-brand > span,
+.fine-print,
+.pickup-card span {
+  color: #41474e;
+}
+.alert.success {
+  background: #f0f0ef;
+  border-color: #dfe1df;
+  color: #41474e;
+}
+.setup-panel {
+  max-width: 700px;
+  margin: 55px auto 80px;
+  padding: 38px;
+  border: 1px solid #dfe1df;
+  border-top: 5px solid #941114;
+  border-radius: 8px;
+  background: white;
+  text-align: center;
+}
+.setup-panel .eyebrow {
+  justify-content: center;
+  margin-top: 8px;
+}
+.setup-panel h1 {
+  margin: 18px 0 12px;
+}
+.setup-panel > p {
+  font-size: 13px;
+}
+.setup-panel .setup-steps {
+  display: grid;
+  gap: 12px;
+  margin: 25px 0;
+  padding: 20px;
+  border: 1px solid #dfe1df;
+  border-radius: 6px;
+  text-align: left;
+  font-size: 12px;
+}
+.setup-panel .setup-steps > strong {
+  color: #6a1817;
+}
+.setup-panel .fine-print {
+  font-size: 11px;
+}
+@media (max-width: 720px) {
+  .brand-name {
+    font-size: 22px;
+  }
+  .brand-name > span {
+    font-size: 6px;
+    letter-spacing: 0.8px;
+  }
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    font-size: 11px;
+  }
+  .setup-panel {
+    margin: 35px auto 55px;
+    padding: 24px 18px;
+  }
+  .setup-panel h1 {
+    font-size: 32px;
   }
 }

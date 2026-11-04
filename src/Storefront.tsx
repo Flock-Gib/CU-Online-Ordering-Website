@@ -22,7 +22,7 @@ import {
   money,
 } from "./model";
 import type { Cart, Customer, Menu, Order } from "./model";
-import { demoMode, placeOrder } from "./repository";
+import { placeOrder } from "./repository";
 
 export default function Storefront({
   menus,
@@ -387,14 +387,11 @@ export default function Storefront({
               <span className="success-icon">
                 <Check size={28} />
               </span>
-              <div className="eyebrow">
-                {demoMode ? "DEMO ORDER SAVED" : "YOU’RE ON THE LIST"}
-              </div>
+              <div className="eyebrow">ORDER RECEIVED</div>
               <h2>Lunch, sorted.</h2>
               <p>
-                {demoMode
-                  ? "This practice order stays in this browser. No real order was sent."
-                  : "Your order is with the culinary team. Save this confirmation for pickup."}
+                Your order is with the culinary team. Save this confirmation for
+                pickup.
               </p>
               <div className="receipt-code">{receipt.reference}</div>
               <p>
@@ -543,11 +540,13 @@ export default function Storefront({
                         />
                       </label>
                       <label>
-                        Order note <span className="optional">(optional)</span>
+                        Meal changes or requests{" "}
+                        <span className="optional">(optional)</span>
                         <textarea
-                          rows={2}
+                          rows={3}
                           maxLength={500}
-                          placeholder="For allergies, please speak with staff first."
+                          placeholder="For example: no ketchup, no bacon, or dressing on the side."
+                          aria-describedby="meal-request-help"
                           value={customer.note}
                           onChange={(event) => {
                             requestId.current = crypto.randomUUID();
@@ -559,20 +558,17 @@ export default function Storefront({
                           disabled={busy}
                         />
                       </label>
-                      <p className="fine-print">
-                        {demoMode
-                          ? "Demo only: use made-up details. Data is saved in this browser."
-                          : "Your details are shared with culinary staff to prepare your order. Please do not include sensitive information."}
+                      <p className="fine-print" id="meal-request-help">
+                        Requests are open response and will be passed to the
+                        kitchen. We’ll do our best, but changes aren’t
+                        guaranteed. For allergy concerns, contact culinary staff
+                        directly; this form isn’t an allergy-safety request.
                       </p>
                       <button
                         className="button primary full"
                         disabled={!open || busy}
                       >
-                        {busy
-                          ? "Placing order…"
-                          : demoMode
-                            ? "Place demo order"
-                            : "Place order"}{" "}
+                        {busy ? "Placing order…" : "Place order"}{" "}
                         <ArrowRight size={16} />
                       </button>
                       <button
