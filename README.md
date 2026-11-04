@@ -10,6 +10,12 @@ staff sign-in. **There is no demo mode, sample menu, local order storage or
 hard-coded admin password.** If the live service isn't configured, the site
 displays a setup message instead of accepting pretend orders.
 
+**You do not need to buy a database plan.** Supabase offers a Free plan at $0
+per month for this setup. Free projects may pause after inactivity, and must be
+resumed from Supabase if that happens. See the [Supabase project pausing
+policy](https://supabase.com/docs/guides/platform/free-project-pausing) before
+relying on a free project for school operations.
+
 ## Features
 
 - Searchable menus, categories, portions, availability, dietary labels and cart.
@@ -50,8 +56,10 @@ npm run preview
 
 ## Configure real ordering and culinary staff access
 
-A static site cannot securely share orders or authenticate staff by itself. Use
-a Supabase project approved by the school's IT/data-protection team:
+A static site cannot securely share orders or authenticate staff by itself.
+Create a Supabase project on its **Free plan ($0/month)**, subject to the
+provider's free-tier limits and inactivity policy. Ask the school's IT/data-
+protection team to own the project and approve storing teacher information.
 
 1. Create a Supabase project.
 2. In its SQL Editor, run [`supabase/schema.sql`](supabase/schema.sql) **once**
@@ -137,6 +145,10 @@ type the menu. Complex columns and wrapped lines may need manual correction.
 Click **Review items** and inspect both detected items and unrecognized lines,
 then click **Add items to menu**. Review dish names, prices, dietary labels,
 pickup details and deadlines before **Save & publish**.
+For a menu in Google Docs, choose **File → Download → PDF Document (.pdf)**
+and upload the downloaded PDF. The site imports text from the PDF; it does not
+read a Google Drive link or import a Google Sheet directly. Staff can instead
+type or paste menu text, or add each dish manually in the editor.
 
 ## Deploy to Render
 

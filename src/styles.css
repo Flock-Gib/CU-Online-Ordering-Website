@@ -2289,8 +2289,26 @@ footer {
 .setup-panel .setup-steps > strong {
   color: #6a1817;
 }
+.setup-panel .setup-steps code {
+  font-size: 11px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.setup-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
 .setup-panel .fine-print {
   font-size: 11px;
+}
+.setup-caveat {
+  margin: 15px auto 0;
+  max-width: 520px;
+  font-size: 10px !important;
 }
 @media (max-width: 720px) {
   .brand-name {

@@ -1,11 +1,11 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
 
 afterEach(cleanup);
 
 describe("live ordering setup", () => {
-  it("explains the required service setup instead of displaying sample menus", async () => {
+  it("explains no-cost setup instead of displaying sample menus or fake orders", async () => {
     render(<App />);
     expect(
       await screen.findByRole("heading", {
@@ -13,16 +13,22 @@ describe("live ordering setup", () => {
       }),
     ).toBeTruthy();
     expect(
-      screen.getByText(
-        "Connect the school’s Supabase project and run the database setup.",
-      ),
+      screen.getByText(/No paid database plan is required to start/),
     ).toBeTruthy();
     expect(screen.queryByText("Demo kitchen")).toBeNull();
     expect(
-      screen.queryByRole("button", { name: /Place demo order/i }),
-    ).toBeNull();
-    expect(
       screen.queryByRole("heading", { name: "What’s cooking?" }),
     ).toBeNull();
+    fireEvent.click(
+      screen.getByRole("button", { name: /View culinary admin setup/ }),
+    );
+    expect(
+      screen.getByRole("heading", { name: "Set up the culinary admin." }),
+    ).toBeTruthy();
+    expect(screen.getByText(/Free plan \(\$0\/month\)/)).toBeTruthy();
+    expect(
+      screen.getByRole("link", { name: /Step-by-step setup guide/ }),
+    ).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Sign in" })).toBeNull();
   });
 });

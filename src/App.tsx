@@ -253,31 +253,92 @@ export default function App() {
       </header>
       <main id="main">
         {configError ? (
-          <section className="setup-panel" role="status">
+          <section className="setup-panel" aria-labelledby="setup-title">
             <div className="login-icon">
               <ChefHat size={35} />
             </div>
             <div className="eyebrow">CAPE COD TECH · CULINARY DEPARTMENT</div>
-            <h1>Online ordering is being set up.</h1>
-            <p>{configError}</p>
-            <div className="setup-steps">
-              <strong>Before opening the ordering site</strong>
-              <span>
-                Connect the school’s Supabase project and run the database
-                setup.
-              </span>
-              <span>
-                Create named culinary staff accounts and grant each account
-                staff access.
-              </span>
-              <span>
-                Add the public Supabase URL and anon key to the hosting
-                provider, then redeploy.
-              </span>
-            </div>
-            <p className="fine-print">
-              No practice orders or menu data are stored on this site.
-            </p>
+            {view === "admin" ? (
+              <>
+                <h1 id="setup-title">Set up the culinary admin.</h1>
+                <p>
+                  The admin tools are ready, but they need a shared place to
+                  save menus and orders before staff can sign in.
+                </p>
+                <div className="setup-steps">
+                  <strong>You can start for free</strong>
+                  <span>
+                    Create a school-owned Supabase project on its Free plan
+                    ($0/month). No paid database plan is required to set it up.
+                  </span>
+                  <span>
+                    Run <code>supabase/schema.sql</code> in its SQL Editor,
+                    create culinary staff accounts and grant them access.
+                  </span>
+                  <span>
+                    Add the project URL and public anon key to Render as
+                    <code> VITE_SUPABASE_URL </code> and
+                    <code> VITE_SUPABASE_ANON_KEY</code>, then redeploy.
+                  </span>
+                </div>
+                <div className="setup-actions">
+                  <a
+                    className="button primary"
+                    href="https://supabase.com/dashboard"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open Supabase <ArrowRight size={16} />
+                  </a>
+                  <a
+                    className="button secondary"
+                    href="https://github.com/Flock-Gib/CU-Online-Ordering-Website#configure-real-ordering-and-culinary-staff-access"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Step-by-step setup guide
+                  </a>
+                </div>
+                <p className="fine-print">
+                  No admin password has been created yet. Create a named school
+                  staff account in Supabase; the website does not contain a
+                  shared or default password.
+                </p>
+                <p className="setup-caveat">
+                  Supabase’s Free plan may pause projects after inactivity. You
+                  can resume them from its dashboard.
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 id="setup-title">Online ordering is being set up.</h1>
+                <p>
+                  The teacher menu and kitchen admin need a shared service so
+                  menus and real orders are visible across devices.
+                </p>
+                <div className="setup-steps">
+                  <strong>No paid database plan is required to start</strong>
+                  <span>
+                    The school can connect a Supabase Free plan project to this
+                    static site.
+                  </span>
+                  <span>
+                    After setup, culinary staff can upload a Google Doc saved as
+                    a PDF or enter dishes manually, then publish for teachers to
+                    order.
+                  </span>
+                </div>
+                <button
+                  className="button secondary"
+                  onClick={() => setView("admin")}
+                >
+                  View culinary admin setup <ArrowRight size={16} />
+                </button>
+                <p className="fine-print">
+                  No practice orders or sample menu data are shown.
+                </p>
+              </>
+            )}
           </section>
         ) : (
           <>
