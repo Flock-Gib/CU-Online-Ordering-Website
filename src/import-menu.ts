@@ -7,9 +7,26 @@ export function parseMenu(text: string): ImportResult {
   let category = "Mains";
   const items: MenuItem[] = [];
   const skipped: string[] = [];
-  for (const raw of text.split(/\r?\n/)) {
-    const line = raw.trim();
+  const lines = text.split(/\r?\n/).flatMap((raw) => {
+    const sizes = raw
+      .trim()
+      .match(
+        /^(.+?)\s+(Small|Medium|Large|Regular)\s+\$(\d{1,4}(?:\.\d{2})?)\s*\|?\s+(Small|Medium|Large|Regular)\s+\$(\d{1,4}(?:\.\d{2})?)$/i,
+      );
+    return sizes
+      ? [
+          `${sizes[1]} (${sizes[2]}) | $${sizes[3]}`,
+          `${sizes[1]} (${sizes[4]}) | $${sizes[5]}`,
+        ]
+      : [raw];
+  });
+  for (const raw of lines) {
+    const line = raw.trim().replace(/[.·…]{2,}/g, " ");
     if (!line) continue;
+    if (line.startsWith("[Needs review]")) {
+      skipped.push(raw.trim());
+      continue;
+    }
     if (/^#{1,3}\s+/.test(line) || /^[^$|\d]{1,60}:$/.test(line)) {
       category =
         line
@@ -18,9 +35,13 @@ export function parseMenu(text: string): ImportResult {
           .trim() || "Mains";
       continue;
     }
-    const match = line.match(
-      /^(.+?)(?:\s*\|\s*|\s+[-–—]\s*|\s+)(\$?\s*\d{1,4}(?:\.\d{2})?)\s*$/,
-    );
+    const match = line.includes("$")
+      ? line.match(
+          /^([^$]+?)(?:\s*\|\s*|\s+[-–—]\s*|\s+)(\$\s*\d{1,4}(?:\.\d{2})?)\s*$/,
+        )
+      : line.match(
+          /^(.+?)(?:\s*\|\s*|\s+[-–—]\s*|\s+)(\d{1,4}(?:\.\d{2})?)\s*$/,
+        );
     if (
       !match ||
       !match[1].trim() ||

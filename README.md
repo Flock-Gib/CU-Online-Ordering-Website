@@ -153,6 +153,23 @@ extracted text before reviewing items; no dishes are published automatically.
 If recognition finds no text or a file is invalid, an error is shown and staff
 can retry or enter the menu manually.
 
+The PNG reader uses the full-quality English model, enlarged high-contrast
+images, removal of dotted price leaders and word-position matching. **Auto-detect
+section columns** recognizes two-column menus with solid colored section bars
+and reads each section separately. For other layouts, select **One column** or
+**Two columns** before choosing the file again. Menus are not matched against a
+fixed list of dishes; changing names and prices are read from each upload.
+
+Uncertain names or prices are marked `[Needs review]` and excluded from detected
+items. Multiple prices are rejected unless they are clearly labeled size
+variants, such as small and large coffee. Explicit salad base prices are retained;
+salad add-ons, dressings and other choices need manual setup. Descriptions and
+other unrecognized text remain visible for staff to transfer or correct.
+Staff must check the original for missing items and verify every name and price,
+then select the confirmation checkbox before adding PNG-imported items.
+OCR is not guaranteed accurate for every design; use a selectable-text PDF,
+paste structured text or enter dishes manually when a layout does not read well.
+
 Click **Review items** and inspect both detected items and unrecognized lines,
 then click **Add items to menu**. Review dish names, prices, dietary labels,
 pickup details and deadlines before **Save & publish**.

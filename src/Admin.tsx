@@ -17,6 +17,7 @@ import {
 import { z } from "zod";
 import { extractPdf, parseMenu } from "./import-menu";
 import type { ImportResult } from "./import-menu";
+import type { PngLayout } from "./prepare-menu-image";
 import {
   deadlineInput,
   displayDate,
@@ -52,6 +53,9 @@ function MenuEditor({
   const [busy, setBusy] = useState(false);
   const [reading, setReading] = useState(false);
   const [readingStatus, setReadingStatus] = useState("");
+  const [pngLayout, setPngLayout] = useState<PngLayout>("auto");
+  const [imageImport, setImageImport] = useState(false);
+  const [pricesChecked, setPricesChecked] = useState(false);
   const [error, setError] = useState("");
   const [importNotice, setImportNotice] = useState("");
   const [dirty, setDirty] = useState(false);
@@ -88,6 +92,7 @@ function MenuEditor({
     setError("");
     setParsed(null);
     setImportNotice("");
+    setPricesChecked(false);
     try {
       const isPng = /\.png$/i.test(file.name);
       if (!isPng && !/\.pdf$/i.test(file.name))
@@ -95,12 +100,13 @@ function MenuEditor({
       const extracted = isPng
         ? await (
             await import("./image-menu")
-          ).extractPng(file, setReadingStatus)
+          ).extractPng(file, setReadingStatus, pngLayout)
         : await extractPdf(file);
       setText(extracted);
+      setImageImport(isPng);
       setDirty(true);
       setImportNotice(
-        `Text extracted from ${file.name}. ${isPng ? "Image text recognition can misread words and prices." : "PDF layouts can affect the results."} Correct the text, then review the detected items before adding them to the menu.`,
+        `Text extracted from ${file.name}. ${isPng ? "Check every dish and price against the original image, including missing items. Lines marked [Needs review] are not imported. Salad add-ons and other choices must be set up manually." : "PDF layouts can affect the results."} Correct the text, then review the detected items before adding them to the menu.`,
       );
     } catch (error) {
       setError(errorMessage(error));
@@ -111,6 +117,7 @@ function MenuEditor({
     }
   }
   function review() {
+    setPricesChecked(false);
     const result = parseMenu(text);
     setParsed(result);
     setError("");
@@ -121,6 +128,12 @@ function MenuEditor({
   }
   function addImported() {
     if (!parsed) return;
+    if (imageImport && !pricesChecked) {
+      setError(
+        "Check every dish and price against the original image before adding items.",
+      );
+      return;
+    }
     if (menu.items.length + parsed.items.length > 100) {
       setError("Each menu can have up to 100 items. Remove some items first.");
       return;
@@ -192,6 +205,24 @@ function MenuEditor({
                 <br />
                 PDFs: 20 pages · PNGs: 16 million pixels
               </p>
+              <label htmlFor="png-layout">PNG menu layout</label>
+              <select
+                id="png-layout"
+                value={pngLayout}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  if (
+                    value === "auto" ||
+                    value === "single" ||
+                    value === "columns"
+                  )
+                    setPngLayout(value);
+                }}
+              >
+                <option value="auto">Auto-detect section columns</option>
+                <option value="single">One column</option>
+                <option value="columns">Two columns</option>
+              </select>
               <input
                 ref={fileInput}
                 id="menu-file"
@@ -208,7 +239,8 @@ function MenuEditor({
               </label>
               <small>
                 Files are processed in your browser, not uploaded. PNG text
-                recognition is free and reads English text.
+                recognition is free and reads English text. If columns are
+                mixed, choose the matching layout and select the file again.
               </small>
             </div>
             {reading && (
@@ -226,6 +258,7 @@ function MenuEditor({
                 onChange={(event) => {
                   setText(event.target.value);
                   setParsed(null);
+                  setPricesChecked(false);
                 }}
               />
               <div className="import-actions">
@@ -234,6 +267,8 @@ function MenuEditor({
                   onClick={() => {
                     setText(sample);
                     setParsed(null);
+                    setImageImport(false);
+                    setPricesChecked(false);
                   }}
                 >
                   Use example
@@ -285,9 +320,22 @@ function MenuEditor({
                   </p>
                 </details>
               )}
+              {imageImport && (
+                <label className="checkbox">
+                  <input
+                    type="checkbox"
+                    checked={pricesChecked}
+                    onChange={(event) => setPricesChecked(event.target.checked)}
+                  />
+                  I checked every dish and price against the original image,
+                  including missing items.
+                </label>
+              )}
               <button
                 className="button primary"
-                disabled={!parsed.items.length}
+                disabled={
+                  !parsed.items.length || (imageImport && !pricesChecked)
+                }
                 onClick={addImported}
               >
                 Add {parsed.items.length} items to menu <Plus size={16} />

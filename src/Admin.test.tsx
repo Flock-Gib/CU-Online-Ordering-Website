@@ -46,12 +46,20 @@ describe("culinary order board", () => {
       target: { files: [new File(["png"], "menu.png", { type: "image/png" })] },
     });
     expect(
-      await screen.findByText(/Image text recognition can misread/),
+      await screen.findByText(
+        /Check every dish and price against the original/,
+      ),
     ).toBeTruthy();
     expect(screen.queryByLabelText("Item name")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Review items" }));
     expect(screen.getByText("2 items detected")).toBeTruthy();
     expect(screen.queryByLabelText("Item name")).toBeNull();
+    expect(
+      screen.getByRole<HTMLButtonElement>("button", {
+        name: "Add 2 items to menu",
+      }).disabled,
+    ).toBe(true);
+    fireEvent.click(screen.getByLabelText(/I checked every dish and price/));
     fireEvent.click(
       screen.getByRole("button", { name: "Add 2 items to menu" }),
     );

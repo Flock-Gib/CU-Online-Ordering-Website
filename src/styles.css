@@ -1276,7 +1276,7 @@ footer {
   margin-top: 14px;
   color: #94a086;
 }
-.upload-zone input {
+.upload-zone input[type="file"] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1285,6 +1285,16 @@ footer {
 .upload-zone input:focus-visible + label {
   outline: 3px solid #b98635;
   outline-offset: 3px;
+}
+.upload-zone > label[for="png-layout"] {
+  margin: 14px 0 5px;
+  color: var(--dark);
+}
+.upload-zone > select {
+  max-width: 100%;
+}
+.import-preview > .checkbox {
+  margin-top: 20px;
 }
 .typed-import > label {
   margin-bottom: 9px;

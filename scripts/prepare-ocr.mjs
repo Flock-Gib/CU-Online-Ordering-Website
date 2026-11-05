@@ -11,10 +11,7 @@ for (const [source, filename] of [
     "tesseract.js-core/tesseract-core-lstm.wasm.js",
     "tesseract-core-lstm.wasm.js",
   ],
-  [
-    "@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz",
-    "eng.traineddata.gz",
-  ],
+  ["@tesseract.js-data/eng/4.0.0/eng.traineddata.gz", "eng.traineddata.gz"],
 ]) {
   await copyFile(
     require.resolve(source),
