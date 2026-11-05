@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
+import cafeLogo from "./assets/cove-cafe-mark.png?inline";
 
 afterEach(cleanup);
 
@@ -10,8 +11,9 @@ describe("live ordering setup", () => {
     const logo = screen.getByRole("img", {
       name: "The Cove Café lighthouse artwork",
     });
-    expect(logo.getAttribute("src")).toBe(
-      `${import.meta.env.BASE_URL}cove-cafe-mark.png`,
+    expect(logo.getAttribute("src")).toBe(cafeLogo);
+    expect(document.querySelector(".footer-logo")?.getAttribute("src")).toBe(
+      cafeLogo,
     );
     expect(screen.getByText("CAPE COD TECH CULINARY ARTS")).toBeTruthy();
     expect(

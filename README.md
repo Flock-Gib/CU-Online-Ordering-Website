@@ -204,9 +204,14 @@ subtitles. DM Serif Display is bundled locally; ordering controls retain
 readable DM Sans. This is a similar typographic treatment, not a claim that the
 menu's exact font has been identified.
 
-`public/cove-cafe-mark.png` is the lighthouse artwork cropped from the
+The storefront hero uses an original, scalable SVG bowl illustration with
+ceramic shading, grilled chicken, rice and vegetables. It is decorative, not a
+photograph of a specific dish; menu descriptions remain the source of item details.
+
+`src/assets/cove-cafe-mark.png` is the lighthouse artwork cropped from the
 school-provided menu. It appears in the header, footer and favicon and is served
-locally. It is the **culinary menu's café artwork**, not the official school
+as an embedded image in the production build, avoiding separate logo-file requests
+and relative-path failures. It is the **culinary menu's café artwork**, not the official school
 C-Shield. An approved school logo file is still needed to add the official
 school crest; do not recreate or mislabel the lighthouse as that crest.
 

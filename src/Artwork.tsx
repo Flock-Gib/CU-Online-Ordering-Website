@@ -1,3 +1,207 @@
+import { useId } from "react";
+
+function HeroBowl() {
+  const id = useId().replace(/:/g, "");
+  const paint = (name: string) => `url(#${id}-${name})`;
+  return (
+    <svg className="food-art hero-art" viewBox="0 0 480 360" aria-hidden="true">
+      <defs>
+        <radialGradient id={`${id}-ceramic`} cx=".4" cy=".2" r=".9">
+          <stop stopColor="#fffefb" />
+          <stop offset=".65" stopColor="#eee4d5" />
+          <stop offset="1" stopColor="#c8b49f" />
+        </radialGradient>
+        <radialGradient id={`${id}-greens`}>
+          <stop stopColor="#809648" />
+          <stop offset="1" stopColor="#334e2d" />
+        </radialGradient>
+        <linearGradient id={`${id}-chicken`} x2=".3" y2="1">
+          <stop stopColor="#f5d6a0" />
+          <stop offset=".5" stopColor="#d99a51" />
+          <stop offset="1" stopColor="#ae632e" />
+        </linearGradient>
+        <radialGradient id={`${id}-tomato`} cx=".3" cy=".25">
+          <stop stopColor="#ff9a67" />
+          <stop offset=".5" stopColor="#de4a32" />
+          <stop offset="1" stopColor="#9b2e25" />
+        </radialGradient>
+        <filter id={`${id}-shadow`} x="-.3" y="-.3" width="1.6" height="1.8">
+          <feDropShadow
+            dx="0"
+            dy="12"
+            stdDeviation="10"
+            floodColor="#53351e"
+            floodOpacity=".18"
+          />
+        </filter>
+        <clipPath id={`${id}-inside`}>
+          <ellipse cx="240" cy="169" rx="165" ry="105" />
+        </clipPath>
+      </defs>
+      <ellipse cx="243" cy="306" rx="164" ry="20" fill="#6a4634" opacity=".1" />
+      <g filter={paint("shadow")}>
+        <path
+          d="M56 172C60 272 126 326 240 326s180-54 184-154Z"
+          fill={paint("ceramic")}
+        />
+        <path
+          d="M79 227c34 73 123 102 217 75"
+          fill="none"
+          stroke="#fffdf8"
+          strokeWidth="5"
+          opacity=".55"
+        />
+        <ellipse cx="240" cy="168" rx="185" ry="124" fill="#fffdf7" />
+        <ellipse cx="240" cy="169" rx="170" ry="109" fill="#ded4bf" />
+        <g clipPath={paint("inside")}>
+          <ellipse cx="240" cy="169" rx="165" ry="105" fill={paint("greens")} />
+          {Array.from({ length: 19 }, (_, i) => {
+            const x = 95 + ((i * 73) % 290);
+            const y = 90 + ((i * 47) % 155);
+            return (
+              <g key={i} transform={`translate(${x} ${y}) rotate(${i * 37})`}>
+                <path
+                  d="M-25 0Q-16-26 0-17 19-28 28-5 18 17 0 20-21 17-25 0Z"
+                  fill={i % 2 ? "#72984b" : "#47713c"}
+                />
+                <path
+                  d="M-18 2 17-4M-2 0l-7-10M5-1l6 10"
+                  stroke="#b1c67c"
+                  strokeWidth="1.3"
+                  opacity=".55"
+                  fill="none"
+                />
+              </g>
+            );
+          })}
+          <ellipse cx="202" cy="181" rx="91" ry="65" fill="#e1cf9d" />
+          {Array.from({ length: 110 }, (_, i) => (
+            <ellipse
+              key={i}
+              cx={127 + ((i * 37) % 146)}
+              cy={131 + ((i * 19) % 101)}
+              rx="4"
+              ry="1.8"
+              transform={`rotate(${i * 29} ${127 + ((i * 37) % 146)} ${131 + ((i * 19) % 101)})`}
+              fill={i % 3 ? "#fff0cd" : "#bfab77"}
+            />
+          ))}
+          {[
+            [118, 144],
+            [335, 195],
+            [316, 112],
+            [145, 231],
+          ].map(([x, y], i) => (
+            <g key={i} transform={`translate(${x} ${y}) rotate(${i * 35})`}>
+              <ellipse rx="23" ry="18" fill={paint("tomato")} />
+              <path
+                d="M-15 0Q0-17 15 0 0 16-15 0"
+                fill="#ef8a55"
+                opacity=".65"
+              />
+              <path
+                d="m-8-4 3 2m9-3 3 2m-5 8 3-2"
+                stroke="#ffe0a2"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+              <path
+                d="m-7-10 7 3 7-5-3 7"
+                fill="none"
+                stroke="#678145"
+                strokeWidth="2"
+              />
+            </g>
+          ))}
+          {[
+            [340, 149],
+            [298, 230],
+            [100, 191],
+          ].map(([x, y], i) => (
+            <g key={i} transform={`translate(${x} ${y}) rotate(-25)`}>
+              <ellipse rx="23" ry="16" fill="#416d38" />
+              <ellipse rx="19" ry="13" fill="#b9ce7a" />
+              <ellipse rx="13" ry="9" fill="#dfebac" />
+              <path
+                d="m-5-4 2 1m7 0 2 1m-4 5 2-1"
+                stroke="#f9f4d0"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </g>
+          ))}
+          <g transform="rotate(-25 220 166)">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <g
+                key={i}
+                transform={`translate(${181 + i * 6} ${108 + i * 25})`}
+              >
+                <path
+                  d="M0 0Q37-8 73 2l-4 20Q35 28-4 18Z"
+                  fill="#824724"
+                  opacity=".3"
+                  transform="translate(2 4)"
+                />
+                <path
+                  d="M0 0Q37-8 73 2l-4 20Q35 28-4 18Z"
+                  fill={paint("chicken")}
+                  stroke="#bf8245"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="m11 1 4 17m17-21 4 23m16-21 3 18"
+                  stroke="#75401f"
+                  strokeWidth="3"
+                  opacity=".65"
+                />
+                <path
+                  d="M4 17q30 6 62 1"
+                  stroke="#ffe2b2"
+                  strokeWidth="3"
+                  fill="none"
+                />
+              </g>
+            ))}
+          </g>
+          <g transform="translate(288 76) rotate(15)">
+            <path
+              d="M0 0 57 20 8 63Q-12 30 0 0Z"
+              fill="#e5b533"
+              stroke="#fff1bc"
+              strokeWidth="6"
+            />
+            <path d="m5 7 43 15L12 52Q0 28 5 7" fill="#f9dd79" />
+            <path
+              d="m8 13 7 29m-3-24 22 6m-20-2 11 12"
+              stroke="#fff0b0"
+              strokeWidth="2"
+            />
+          </g>
+          {Array.from({ length: 24 }, (_, i) => (
+            <path
+              key={i}
+              d={`m${105 + ((i * 43) % 265)} ${104 + ((i * 31) % 136)} 5 -2`}
+              stroke={i % 3 ? "#325a32" : "#fff3d4"}
+              strokeWidth={i % 3 ? 2 : 3}
+              strokeLinecap="round"
+            />
+          ))}
+        </g>
+        <ellipse
+          cx="240"
+          cy="168"
+          rx="179"
+          ry="118"
+          fill="none"
+          stroke="#fff"
+          strokeWidth="3"
+          opacity=".65"
+        />
+      </g>
+    </svg>
+  );
+}
+
 export function FoodArt({
   name,
   hero = false,
@@ -5,6 +209,7 @@ export function FoodArt({
   name: string;
   hero?: boolean;
 }) {
+  if (hero) return <HeroBowl />;
   const kind = /cookie|brownie|cake/i.test(name)
     ? "cookie"
     : /tea|drink|lemonade|coffee/i.test(name)

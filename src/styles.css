@@ -316,7 +316,7 @@ main {
   position: relative;
   width: 440px !important;
   max-width: 110%;
-  transform: rotate(-9deg);
+  transform: rotate(-5deg);
   margin: 0 10px 0 0;
 }
 .handwritten {

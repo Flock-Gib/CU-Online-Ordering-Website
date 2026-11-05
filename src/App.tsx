@@ -10,6 +10,7 @@ import Admin from "./Admin";
 import Storefront from "./Storefront";
 import { configError, listMenus, supabase } from "./repository";
 import type { Menu } from "./model";
+import cafeLogo from "./assets/cove-cafe-mark.png?inline";
 
 function Login({ signedIn }: { signedIn: boolean }) {
   const [email, setEmail] = useState("");
@@ -213,7 +214,7 @@ export default function App() {
         >
           <img
             className="brand-logo"
-            src={`${import.meta.env.BASE_URL}cove-cafe-mark.png`}
+            src={cafeLogo}
             alt="The Cove Café lighthouse artwork"
             width={72}
             height={63}
@@ -388,7 +389,7 @@ export default function App() {
         <div className="footer-brand">
           <img
             className="footer-logo"
-            src={`${import.meta.env.BASE_URL}cove-cafe-mark.png`}
+            src={cafeLogo}
             alt=""
             width={46}
             height={40}
