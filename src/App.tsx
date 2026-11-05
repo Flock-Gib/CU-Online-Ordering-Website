@@ -323,9 +323,8 @@ export default function App() {
                     static site.
                   </span>
                   <span>
-                    After setup, culinary staff can upload a Google Doc saved as
-                    a PDF or enter dishes manually, then publish for teachers to
-                    order.
+                    After setup, culinary staff can upload a PDF or PNG menu or
+                    enter dishes manually, then publish for teachers to order.
                   </span>
                 </div>
                 <button

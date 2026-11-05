@@ -7,7 +7,9 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "predev": "node scripts/prepare-ocr.mjs",
     "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/prepare-ocr.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run"
@@ -16,10 +18,13 @@
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@fontsource/dm-serif-display": "^5.3.0",
     "@supabase/supabase-js": "^2.80.0",
+    "@tesseract.js-data/eng": "^1.0.0",
     "lucide-react": "^0.468.0",
     "pdfjs-dist": "^6.5.438",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "tesseract.js": "^7.0.0",
+    "tesseract.js-core": "^7.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

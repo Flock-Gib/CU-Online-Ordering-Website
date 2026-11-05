@@ -98,7 +98,7 @@ export async function extractPdf(file: File): Promise<string> {
     const text = pages.join("\n\n").trim();
     if (!text)
       throw new Error(
-        "This PDF has no readable text. Scanned menus need OCR first, or you can type the menu below.",
+        "This PDF has no readable text. Export the scanned menu as a PNG to use image text recognition, or type the menu below.",
       );
     return text;
   } finally {

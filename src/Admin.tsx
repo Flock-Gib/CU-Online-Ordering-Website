@@ -51,6 +51,7 @@ function MenuEditor({
   const [parsed, setParsed] = useState<ImportResult | null>(null);
   const [busy, setBusy] = useState(false);
   const [reading, setReading] = useState(false);
+  const [readingStatus, setReadingStatus] = useState("");
   const [error, setError] = useState("");
   const [importNotice, setImportNotice] = useState("");
   const [dirty, setDirty] = useState(false);
@@ -81,23 +82,31 @@ function MenuEditor({
       back();
   }
   async function importFile(file?: File) {
-    if (!file) return;
+    if (!file || reading) return;
     setReading(true);
+    setReadingStatus("Reading menu file...");
     setError("");
     setParsed(null);
     setImportNotice("");
     try {
-      if (!/\.pdf$/i.test(file.name))
-        throw new Error("Please choose a PDF file.");
-      const extracted = await extractPdf(file);
+      const isPng = /\.png$/i.test(file.name);
+      if (!isPng && !/\.pdf$/i.test(file.name))
+        throw new Error("Please choose a PDF or PNG file.");
+      const extracted = isPng
+        ? await (
+            await import("./image-menu")
+          ).extractPng(file, setReadingStatus)
+        : await extractPdf(file);
       setText(extracted);
+      setDirty(true);
       setImportNotice(
-        `Text extracted from ${file.name}. Check the text, then review the detected items. PDF layouts can affect the results.`,
+        `Text extracted from ${file.name}. ${isPng ? "Image text recognition can misread words and prices." : "PDF layouts can affect the results."} Correct the text, then review the detected items before adding them to the menu.`,
       );
     } catch (error) {
       setError(errorMessage(error));
     } finally {
       setReading(false);
+      setReadingStatus("");
       if (fileInput.current) fileInput.current.value = "";
     }
   }
@@ -140,7 +149,11 @@ function MenuEditor({
   }
   return (
     <section className="editor">
-      <button className="text-button" onClick={leave} disabled={busy}>
+      <button
+        className="text-button"
+        onClick={leave}
+        disabled={busy || reading}
+      >
         <ArrowLeft size={15} /> All menus
       </button>
       <div className="section-heading">
@@ -165,8 +178,8 @@ function MenuEditor({
             <div>
               <h2>Bring your menu to life</h2>
               <p>
-                Upload a text-based PDF or paste your menu. You’ll always review
-                it first.
+                Upload a PDF or PNG image, or paste your menu. You’ll always
+                review it first.
               </p>
             </div>
           </div>
@@ -175,25 +188,34 @@ function MenuEditor({
               <Upload size={30} strokeWidth={1.4} />
               <h3>Your menu, made clickable.</h3>
               <p>
-                Text-based PDFs · up to 10 MB / 20 pages
+                PDF or PNG · up to 10 MB
                 <br />
-                Scanned images need OCR before import.
+                PDFs: 20 pages · PNGs: 16 million pixels
               </p>
               <input
                 ref={fileInput}
-                id="pdf-menu"
+                id="menu-file"
                 type="file"
-                accept=".pdf,application/pdf"
+                accept=".pdf,.png,application/pdf,image/png"
                 onChange={(event) => void importFile(event.target.files?.[0])}
               />
               <label
-                htmlFor="pdf-menu"
+                htmlFor="menu-file"
                 className={`button secondary ${reading ? "disabled" : ""}`}
               >
-                {reading ? "Reading PDF…" : "Choose a PDF"} <Upload size={15} />
+                {reading ? "Reading menu..." : "Choose PDF or PNG"}{" "}
+                <Upload size={15} />
               </label>
-              <small>PDFs are processed in your browser, not uploaded.</small>
+              <small>
+                Files are processed in your browser, not uploaded. PNG text
+                recognition is free and reads English text.
+              </small>
             </div>
+            {reading && (
+              <div className="alert" role="status">
+                {readingStatus} Large images may take a minute.
+              </div>
+            )}
             <div className="typed-import">
               <label htmlFor="menu-text">Or type / paste a menu</label>
               <textarea

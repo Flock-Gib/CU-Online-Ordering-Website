@@ -23,7 +23,7 @@ relying on a free project for school operations.
   Requests are shown to culinary staff but are not guaranteed. Allergy needs
   must be discussed directly with staff.
 - Pickup dates, times and deadlines controlled by culinary staff.
-- Staff sign-in, menu drafts, PDF/text menu import with review, publishing and
+- Staff sign-in, menu drafts, PDF/PNG/text menu import with review, publishing and
   order management.
 - Kitchen prep totals, order status updates and CSV export.
 - Supabase server-side validation of prices, item availability and order limits.
@@ -125,7 +125,7 @@ before collecting real details.
 
 ## Import a menu
 
-In the admin panel, choose **Create a menu** and either upload a PDF or paste:
+In the admin panel, choose **Create a menu** and upload a PDF or PNG, or paste:
 
 ```text
 # Mains
@@ -137,10 +137,20 @@ Chocolate chip cookie | Fresh from the oven | $2.00
 
 Use one item per line, ending with a price. Category headings can be `# Mains`
 or `Mains:`. Descriptions are optional. The importer does not invent prices or
-infer dietary/allergy claims. PDF text extraction runs in the browser; the
-original file is not stored or uploaded. PDFs need selectable text (10 MB /
-20-page limit). Scanned/image-only PDFs need OCR elsewhere first, or staff can
-type the menu. Complex columns and wrapped lines may need manual correction.
+infer dietary/allergy claims. PDF extraction and PNG text recognition (OCR) run
+in the browser; original files are not stored or uploaded to a service. PDFs
+need selectable text (10 MB / 20-page limit). For an image-only menu, upload a
+PNG (10 MB / 16-million-pixel limit). Image-only PDFs must be exported as PNG
+first; PDF image recognition is not automatic.
+
+PNG uploads use free English-language Tesseract OCR. The worker, WebAssembly
+engine and language data are served from this website, not a third-party OCR API.
+They load only when needed; the first import may take longer. Use a sharp,
+upright image with readable dish names and prices. OCR can misread punctuation,
+words and prices, especially in decorative or multi-column menus. Correct the
+extracted text before reviewing items; no dishes are published automatically.
+If recognition finds no text or a file is invalid, an error is shown and staff
+can retry or enter the menu manually.
 
 Click **Review items** and inspect both detected items and unrecognized lines,
 then click **Add items to menu**. Review dish names, prices, dietary labels,
@@ -149,6 +159,11 @@ For a menu in Google Docs, choose **File → Download → PDF Document (.pdf)**
 and upload the downloaded PDF. The site imports text from the PDF; it does not
 read a Google Drive link or import a Google Sheet directly. Staff can instead
 type or paste menu text, or add each dish manually in the editor.
+
+`npm run dev` and `npm run build` automatically copy the installed OCR runtime
+and English data into `public/ocr/`. These generated files are ignored by git
+and included in the static build. Keep the existing Render build command;
+no external OCR key, paid service or database migration is needed for PNG support.
 
 ## Deploy to Render
 
