@@ -5,6 +5,20 @@ import App from "./App";
 afterEach(cleanup);
 
 describe("live ordering setup", () => {
+  it("uses the supplied café artwork and retains school identification", () => {
+    render(<App />);
+    const logo = screen.getByRole("img", {
+      name: "The Cove Café lighthouse artwork",
+    });
+    expect(logo.getAttribute("src")).toBe(
+      `${import.meta.env.BASE_URL}cove-cafe-mark.png`,
+    );
+    expect(screen.getByText("CAPE COD TECH CULINARY ARTS")).toBeTruthy();
+    expect(
+      screen.getByText("Cape Cod Regional Technical High School"),
+    ).toBeTruthy();
+    expect(screen.queryByText("CCT")).toBeNull();
+  });
   it("explains no-cost setup instead of displaying sample menus or fake orders", async () => {
     render(<App />);
     expect(

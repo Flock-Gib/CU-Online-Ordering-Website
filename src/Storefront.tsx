@@ -162,13 +162,13 @@ export default function Storefront({
       <section className="hero">
         <div className="hero-copy">
           <div className="eyebrow">
-            <span className="small-line" /> STUDENT MADE. SCHOOL LOVED.
+            <span className="small-line" /> CAPE COD TECH CULINARY ARTS
           </div>
-          <h1>
-            A good lunch.
-            <br />
-            An even better <em>cause.</em>
-          </h1>
+          <h1>The Cove Café</h1>
+          <p className="cafe-subtitle">Daily Grab + Go Menu</p>
+          <p className="cafe-motto">
+            Good food · Real experience · Brighter futures
+          </p>
           <p>
             Fresh meals, real-world learning. Order something delicious and
             support our student chefs, one lunch at a time.
@@ -183,8 +183,9 @@ export default function Storefront({
         <div className="hero-visual">
           <span className="hero-circle" />
           <span className="handwritten">
-            a little lunch,
-            <br />a lot of heart.
+            Student made,
+            <br />
+            community inspired.
           </span>
           <FoodArt name="chicken bowl" hero />
           <span className="made-badge">

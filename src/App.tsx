@@ -5,7 +5,6 @@ import {
   ChefHat,
   LogOut,
   ShoppingBag,
-  UtensilsCrossed,
 } from "lucide-react";
 import Admin from "./Admin";
 import Storefront from "./Storefront";
@@ -212,11 +211,15 @@ export default function App() {
           aria-label="Cape Cod Tech culinary home"
           onClick={() => setView("store")}
         >
-          <span className="brand-mark" aria-hidden="true">
-            CCT
-          </span>
+          <img
+            className="brand-logo"
+            src={`${import.meta.env.BASE_URL}cove-cafe-mark.png`}
+            alt="The Cove Café lighthouse artwork"
+            width={72}
+            height={63}
+          />
           <span className="brand-name">
-            Cape Cod Tech<span>CULINARY DEPARTMENT</span>
+            The Cove Café<span>CAPE COD TECH CULINARY ARTS</span>
           </span>
         </button>
         <nav aria-label="Main navigation">
@@ -383,9 +386,15 @@ export default function App() {
       </main>
       <footer>
         <div className="footer-brand">
-          <UtensilsCrossed size={19} />
-          <strong>Cape Cod Tech</strong>
-          <span>Culinary Department</span>
+          <img
+            className="footer-logo"
+            src={`${import.meta.env.BASE_URL}cove-cafe-mark.png`}
+            alt=""
+            width={46}
+            height={40}
+          />
+          <strong>The Cove Café</strong>
+          <span>Cape Cod Tech Culinary Arts</span>
         </div>
         <span>Cape Cod Regional Technical High School</span>
       </footer>

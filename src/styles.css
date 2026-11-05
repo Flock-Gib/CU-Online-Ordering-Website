@@ -10,14 +10,14 @@
 :root {
   font-family: "DM Sans", system-ui, sans-serif;
   color: #41474e;
-  background: #f8f8f7;
+  background: #faf4e9;
   font-synthesis: none;
   font-weight: 400;
   line-height: 1.55;
   --green: #941114;
   --dark: #6a1817;
   --muted: #878a8f;
-  --line: #dfe1df;
+  --line: #ddc9bb;
   --serif: "DM Serif Display", Georgia, serif;
 }
 * {
@@ -105,7 +105,7 @@ h3 {
   font-weight: 650;
 }
 p {
-  color: #717b72;
+  color: #665b55;
 }
 svg {
   flex-shrink: 0;
@@ -141,7 +141,7 @@ button:hover:not(:disabled) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 3px double var(--line);
 }
 .brand {
   display: flex;
@@ -150,23 +150,24 @@ button:hover:not(:disabled) {
   padding: 0;
   text-align: left;
 }
-.brand-mark {
-  background: var(--dark);
-  border-radius: 5px;
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  color: white;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+.brand-logo {
+  display: block;
+  width: 72px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+.footer-logo {
+  width: 46px;
+  height: auto;
+  border-radius: 50%;
 }
 .brand-name {
   font-family: var(--serif);
-  font-size: 27px;
+  font-size: 32px;
   line-height: 1.1;
-  letter-spacing: -0.5px;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
 }
 .brand-name > span {
   display: block;
@@ -228,23 +229,38 @@ main {
   display: inline-block;
   width: 25px;
   height: 1px;
-  background: #819c77;
+  background: var(--dark);
 }
 .hero h1 {
-  font-size: 58px;
+  font-size: clamp(44px, 5vw, 70px);
   line-height: 1.08;
-  letter-spacing: -2px;
-  margin: 21px 0 18px;
-}
-.hero h1 em {
-  color: #68805c;
-  font-weight: 400;
+  letter-spacing: 0.015em;
+  margin: 21px 0 8px;
+  text-transform: uppercase;
+  color: var(--dark);
 }
 .hero-copy > p {
   max-width: 390px;
   font-size: 13px;
   line-height: 1.9;
   margin-bottom: 25px;
+}
+.hero-copy > .cafe-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--dark);
+  font-size: 28px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+.hero-copy > .cafe-motto {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: var(--dark);
+  margin-bottom: 20px;
 }
 .button {
   display: inline-flex;
@@ -310,7 +326,7 @@ main {
   font-family: var(--serif);
   font-style: italic;
   line-height: 1.2;
-  color: #8b967b;
+  color: var(--dark);
   font-size: 20px;
   transform: rotate(9deg);
 }
@@ -358,9 +374,7 @@ main {
   justify-content: center;
   gap: 53px;
   padding: 21px 25px;
-  border: 1px solid var(--line);
-  border-left: 0;
-  border-right: 0;
+  border: 3px double var(--line);
   font-size: 11px;
   color: #778071;
 }
@@ -400,6 +414,14 @@ main {
 .section-heading h2 {
   margin-top: 7px;
   font-size: 34px;
+}
+.menu-section > .section-heading {
+  padding: 18px;
+  border: 3px double var(--dark);
+  color: var(--dark);
+}
+.menu-section > .section-heading h2 {
+  font-style: italic;
 }
 .text-button {
   display: inline-flex;
@@ -578,7 +600,10 @@ main {
   color: #69845e;
 }
 .food-details h3 {
-  font-size: 15px;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--dark);
   letter-spacing: -0.2px;
   margin-bottom: 7px;
 }
@@ -1641,7 +1666,7 @@ footer {
     height: 140px;
   }
   .food-details h3 {
-    font-size: 13px;
+    font-size: 17px;
   }
   .food-details > p {
     font-size: 10px;
@@ -1703,9 +1728,8 @@ footer {
   .site-header {
     padding: 18px 0;
   }
-  .brand-mark {
-    width: 37px;
-    height: 37px;
+  .brand-logo {
+    width: 52px;
   }
   .brand-name {
     font-size: 27px;
@@ -1744,13 +1768,19 @@ footer {
   }
   .hero h1 {
     font-size: 38px;
-    letter-spacing: -1.5px;
+    letter-spacing: 0.015em;
     margin: 15px 0;
   }
   .hero-copy > p {
     font-size: 10px;
     line-height: 1.9;
     margin-bottom: 20px;
+  }
+  .hero-copy > .cafe-subtitle {
+    font-size: 23px;
+  }
+  .hero-copy > .cafe-motto {
+    font-size: 8px;
   }
   .hero .eyebrow {
     font-size: 7px;
@@ -1857,7 +1887,7 @@ footer {
     padding: 14px;
   }
   .food-details h3 {
-    font-size: 14px;
+    font-size: 18px;
   }
   .food-details > p {
     font-size: 10px;
@@ -2081,7 +2111,7 @@ footer {
     padding: 11px;
   }
   .food-details h3 {
-    font-size: 12px;
+    font-size: 16px;
   }
   .food-details > p {
     font-size: 9px;
@@ -2125,18 +2155,13 @@ footer {
   }
 }
 
-.brand-mark,
 .login-icon {
-  box-shadow: 0 0 0 4px #dfe1df;
-}
-.brand-mark {
-  background: #6a1817;
-  border: 1px solid #941114;
+  box-shadow: 0 0 0 4px #eadace;
 }
 .brand-name {
-  font-family: "DM Sans", sans-serif;
-  font-weight: 700;
-  color: #1e1b1c;
+  font-family: var(--serif);
+  font-weight: 400;
+  color: #6a1817;
 }
 .brand-name > span {
   font-weight: 550;
@@ -2190,7 +2215,7 @@ footer {
 .upload-zone,
 .order-stats > div,
 .prep-summary > div > span {
-  background: #dfe1df;
+  background: #efdfd2;
 }
 .primary,
 .skip-link {
@@ -2216,7 +2241,7 @@ footer {
   color: #878a8f;
 }
 .login-icon {
-  background: #dfe1df;
+  background: #efdfd2;
 }
 .food-card,
 .cart-panel,
@@ -2224,14 +2249,14 @@ footer {
 .admin-card,
 .site-header,
 footer {
-  border-color: #dfe1df;
+  border-color: #ddc9bb;
 }
 .food-card,
 .cart-panel,
 .receipt,
 .admin-card,
 .secondary {
-  background-color: #fff;
+  background-color: #fffaf2;
 }
 .service-info,
 .menu-summary .badge.green,
@@ -2239,11 +2264,11 @@ footer {
 .order-stats > div,
 .prep-summary > div > span,
 .setup-panel .setup-steps {
-  background: #f0f0ef;
-  border-color: #dfe1df;
+  background: #f4e9dc;
+  border-color: #ddc9bb;
 }
 .tabs button.active {
-  border-color: #c6c8c8;
+  border-color: #b98c82;
 }
 .allergy-note strong,
 .footer-brand > span,
@@ -2318,16 +2343,43 @@ footer {
     font-size: 6px;
     letter-spacing: 0.8px;
   }
-  .brand-mark {
-    width: 40px;
-    height: 40px;
-    font-size: 11px;
-  }
   .setup-panel {
     margin: 35px auto 55px;
     padding: 24px 18px;
   }
   .setup-panel h1 {
     font-size: 32px;
+  }
+}
+@media (max-width: 480px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .site-header nav {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .brand-name {
+    font-size: 27px;
+  }
+  .brand-name > span {
+    font-size: 7px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-copy > p {
+    max-width: 100%;
+  }
+  .hero-visual {
+    margin: 20px 0 0;
+  }
+  .hero h1 {
+    font-size: 42px;
+  }
+  .menu-section > .section-heading {
+    padding: 14px;
+    gap: 10px;
   }
 }

@@ -27,7 +27,8 @@ relying on a free project for school operations.
   order management.
 - Kitchen prep totals, order status updates and CSV export.
 - Supabase server-side validation of prices, item availability and order limits.
-- Cape Cod Tech crimson, maroon, platinum, graphite and midnight brand palette.
+- Menu-inspired cream and burgundy styling, classic serif café lettering and
+  the supplied culinary menu's lighthouse artwork.
 
 ## Run locally
 
@@ -197,11 +198,17 @@ currency is USD and dates use US formatting.
 
 ## Branding asset
 
-The site uses Cape Cod Tech's published crimson `#941114`, maroon `#6A1817`,
-platinum `#DFE1DF`, carbon `#878A8F`, graphite `#41474E`, midnight `#12283C`
-and aqua `#1CB1D1` palette. The current header/favicon use a **CCT text
-monogram**, not the school's official C-Shield artwork. Replace the monogram with
-an approved school-provided SVG/PNG before representing it as the official logo.
+The café theme follows the supplied Cove Café menu: warm cream, Cape Cod Tech
+crimson `#941114` and maroon `#6A1817`, uppercase serif lettering and italic
+subtitles. DM Serif Display is bundled locally; ordering controls retain
+readable DM Sans. This is a similar typographic treatment, not a claim that the
+menu's exact font has been identified.
+
+`public/cove-cafe-mark.png` is the lighthouse artwork cropped from the
+school-provided menu. It appears in the header, footer and favicon and is served
+locally. It is the **culinary menu's café artwork**, not the official school
+C-Shield. An approved school logo file is still needed to add the official
+school crest; do not recreate or mislabel the lighthouse as that crest.
 
 ## Structure
 
