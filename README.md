@@ -126,6 +126,11 @@ before collecting real details.
 
 ## Import a menu
 
+Signed-in culinary staff can open **Quick guide** beside **Menus** and **Orders**
+for a daily checklist, same-day Grab & Go and Restaurant menu setup, import help,
+cutoffs, order handling and troubleshooting. The guide includes shortcuts to
+create a menu or open the order board.
+
 In the admin panel, choose **Create a menu** and upload a PDF or PNG, or paste:
 
 ```text

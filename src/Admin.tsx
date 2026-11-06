@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   CheckCircle2,
   ClipboardList,
   Download,
@@ -28,6 +29,7 @@ import {
 } from "./model";
 import type { Menu, MenuItem, Order } from "./model";
 import { listOrders, saveMenu, unpublishMenu, updateOrder } from "./repository";
+import StaffGuide from "./StaffGuide";
 
 const errorMessage = (error: unknown) =>
   error instanceof z.ZodError
@@ -635,7 +637,7 @@ export default function Admin({
   refresh: () => Promise<void>;
   staffName?: string;
 }) {
-  const [tab, setTab] = useState<"menus" | "orders">("menus");
+  const [tab, setTab] = useState<"menus" | "orders" | "guide">("menus");
   const [editing, setEditing] = useState<Menu | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [filterMenu, setFilterMenu] = useState("all");
@@ -754,6 +756,13 @@ export default function Admin({
           <ClipboardList size={17} /> Orders{" "}
           <span>{orders.filter((order) => order.status === "new").length}</span>
         </button>
+        <button
+          className={tab === "guide" ? "active" : ""}
+          aria-current={tab === "guide" ? "page" : undefined}
+          onClick={() => setTab("guide")}
+        >
+          <BookOpen size={17} /> Quick guide
+        </button>
       </div>
       {error && (
         <div className="alert error" role="alert">
@@ -770,7 +779,15 @@ export default function Admin({
           </button>
         </div>
       )}
-      {tab === "menus" ? (
+      {tab === "guide" ? (
+        <StaffGuide
+          createMenu={() => setEditing(newMenu())}
+          openOrders={() => {
+            setTab("orders");
+            void loadOrders();
+          }}
+        />
+      ) : tab === "menus" ? (
         <div className="admin-menu-grid">
           {[...menus]
             .sort((a, b) => b.serviceDate.localeCompare(a.serviceDate))

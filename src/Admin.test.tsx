@@ -18,6 +18,46 @@ afterEach(() => {
 });
 
 describe("culinary order board", () => {
+  it("opens a practical staff guide and returns to menu creation without losing the guide", async () => {
+    vi.mocked(listOrders).mockResolvedValue([]);
+    render(<Admin menus={[]} refresh={async () => {}} />);
+    fireEvent.click(screen.getByRole("button", { name: "Quick guide" }));
+    expect(
+      screen.getByRole("heading", { name: "Culinary quick guide" }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { name: "Two menus on the same day" }),
+    ).toBeTruthy();
+    expect(screen.getByText("Restaurant / Sit-Down")).toBeTruthy();
+    fireEvent.click(
+      screen.getByText("Upload a menu, paste text or enter dishes manually"),
+    );
+    expect(screen.getByText(/OCR is not perfect/)).toBeTruthy();
+    const guide = screen.getByRole("region", { name: "Culinary quick guide" });
+    const create = [...guide.querySelectorAll("button")].find(
+      (button) => button.textContent === "Create a menu",
+    )!;
+    fireEvent.click(create);
+    expect(
+      screen.getByRole("heading", { name: "What’s on the menu?" }),
+    ).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "All menus" }));
+    expect(
+      screen.getByRole("heading", { name: "Culinary quick guide" }),
+    ).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Open orders" }));
+    expect(
+      await screen.findByRole("heading", { name: "No orders on the board." }),
+    ).toBeTruthy();
+    expect(listOrders).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByRole("button", { name: /Menus/ }));
+    expect(
+      screen.getByRole("heading", { name: "Your first menu starts here." }),
+    ).toBeTruthy();
+    expect(
+      screen.queryByRole("heading", { name: "Culinary quick guide" }),
+    ).toBeNull();
+  });
   it("reports failed PNG recognition without adding or publishing dishes", async () => {
     vi.mocked(listOrders).mockResolvedValue([]);
     vi.mocked(extractPng).mockRejectedValue(

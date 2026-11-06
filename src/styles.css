@@ -1131,6 +1131,55 @@ footer {
   gap: 25px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.staff-guide {
+  max-width: 850px;
+}
+.staff-guide .admin-card {
+  margin-bottom: 20px;
+}
+.staff-guide h3,
+.staff-guide summary {
+  font-size: 18px;
+  color: var(--dark);
+}
+.staff-guide summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+.staff-guide p,
+.staff-guide li {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.staff-guide p,
+.staff-guide ul,
+.staff-guide ol {
+  margin-top: 16px;
+}
+.staff-guide li + li {
+  margin-top: 10px;
+}
+.staff-guide ul,
+.staff-guide ol {
+  padding-left: 22px;
+}
+.staff-guide pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 16px;
+  background: #f4e9dc;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.staff-guide .setup-actions {
+  justify-content: flex-start;
+  margin: 20px 0 0;
+}
+.staff-guide-note {
+  border-left: 3px solid var(--dark);
+  padding-left: 14px;
 }
 .admin-tabs > button {
   display: flex;
